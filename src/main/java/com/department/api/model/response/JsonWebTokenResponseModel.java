@@ -1,6 +1,8 @@
 package com.department.api.model.response;
 
-public class JsonWebTokenResponseModel {
+import java.io.Serializable;
+
+public class JsonWebTokenResponseModel implements Serializable {
 
     public String getJwt() {
         return jwt;

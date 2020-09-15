@@ -68,6 +68,9 @@ public class DepartmentUserService implements UserDetailsService {
     public DepartmentUserModel save(DepartmentUserModel departmentUserModel) {
         final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         departmentUserModel.setPassword(bCryptPasswordEncoder.encode(departmentUserModel.getPassword()));
+        departmentUserModel.setUuid(UUID.randomUUID());
+        departmentUserModel.setCreated_at(new Date(System.currentTimeMillis()));
+        departmentUserModel.setUpdated_at(new Date(System.currentTimeMillis()));
         departmentUserModel.setTags(new HashSet<>());
         return departmentUserRepository.save(departmentUserModel);
     }
@@ -78,5 +81,9 @@ public class DepartmentUserService implements UserDetailsService {
 
     public Optional<DepartmentUserModel> findById(DepartmentUserModel departmentUserModel) {
         return departmentUserRepository.findById(departmentUserModel.getId());
+    }
+
+    public DepartmentUserModel findByUsername(String token) {
+        return departmentUserRepository.findByUsername(token);
     }
 }

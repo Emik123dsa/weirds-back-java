@@ -28,9 +28,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
+@RequestMapping("/api")
 public class DepartmentUserResource {
 
     private static final Logger logger = LoggerFactory.getLogger(DepartmentUserService.class);
@@ -48,7 +51,7 @@ public class DepartmentUserResource {
         this.departmentUserService = departmentUserService;
     }
 
-    @RequestMapping(value = "/auth", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/signin", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity <?> createAuthToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception, JwtException {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
@@ -78,8 +81,8 @@ public class DepartmentUserResource {
         if(departmentUserService.findByEmail(departmentUserModel) != null && departmentUserService.findById(departmentUserModel) != null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new SchemaResponseModel(2, "Failed", departmentUserModel));
         } else {
-
             departmentUserService.save(departmentUserModel);
+
             logger.debug("User %s has been successfully signed up", departmentUserModel.getUsername());
 
             return ResponseEntity.ok(new SchemaResponseModel(1, "Successfully singed up", departmentUserModel));

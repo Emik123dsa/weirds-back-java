@@ -1,6 +1,8 @@
 package com.department.api.model.response;
 
-public class SchemaResponseModel {
+import java.io.Serializable;
+
+public class SchemaResponseModel implements Serializable {
     private final Integer code;
     private final String msg;
     private final Object details;
